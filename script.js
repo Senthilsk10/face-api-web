@@ -1,5 +1,5 @@
 const imageUpload = document.getElementById('imageUpload')
-
+const message = document.getElementById('message');
 Promise.all([
   faceapi.nets.faceRecognitionNet.loadFromUri('/models'),
   faceapi.nets.faceLandmark68Net.loadFromUri('/models'),
@@ -14,6 +14,8 @@ async function start() {
   const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6)
   let image
   let canvas
+  console.log('loaded');
+  message.innerText = "Model loaded now you can start upload photos";
   //document.body.append('Loaded')
   imageUpload.addEventListener('change', async () => {
     if (image) image.remove()
@@ -27,7 +29,9 @@ async function start() {
     const detections = await faceapi.detectAllFaces(image).withFaceLandmarks().withFaceDescriptors()
     const resizedDetections = faceapi.resizeResults(detections, displaySize)
     const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor))
-    postData(results)
+    const queryParams = getQueryParams(queryString);
+    const key = queryParams['key'];
+    postData(results,key)
     results.forEach((result, i) => {
       const box = resizedDetections[i].detection.box
       const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
@@ -68,12 +72,12 @@ const getQueryParams = (queryString) => {
 };
 
 // Get the query parameters as an object
-const queryParams = getQueryParams(queryString);
-const param1Value = queryParams['key'];
-console.log(param1Value);
+//const queryParams = getQueryParams(queryString);
+//const param1Value = queryParams['key'];
+//console.log(param1Value);
 
 
-function postData(data) {
+function postData(data,key) {
   const url = 'my-example.com';
   return fetch(url, {
     method: 'POST',
@@ -81,7 +85,7 @@ function postData(data) {
       'Content-Type': 'application/json',
       // You may need to include additional headers depending on the API requirements
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data,key)
   })
   .then(response => response.json()) // Parse the JSON response
   .catch(error => {
