@@ -14,7 +14,7 @@ async function start() {
   const faceMatcher = new faceapi.FaceMatcher(labeledFaceDescriptors, 0.6)
   let image
   let canvas
-  document.body.append('Loaded')
+  //document.body.append('Loaded')
   imageUpload.addEventListener('change', async () => {
     if (image) image.remove()
     if (canvas) canvas.remove()
@@ -27,6 +27,7 @@ async function start() {
     const detections = await faceapi.detectAllFaces(image).withFaceLandmarks().withFaceDescriptors()
     const resizedDetections = faceapi.resizeResults(detections, displaySize)
     const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor))
+    postData(results)
     results.forEach((result, i) => {
       const box = resizedDetections[i].detection.box
       const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
@@ -70,7 +71,22 @@ const getQueryParams = (queryString) => {
 const queryParams = getQueryParams(queryString);
 const param1Value = queryParams['key'];
 console.log(param1Value);
-// Log the result
-console.log('Query parameters:', queryParams);
+
+
+function postData(data) {
+  const url = 'my-example.com';
+  return fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      // You may need to include additional headers depending on the API requirements
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json()) // Parse the JSON response
+  .catch(error => {
+    console.error('Error:', error);
+  });
+}
 
 
