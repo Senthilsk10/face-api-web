@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script defer src="face-api.min.js"></script>
+  <script defer src="script.js"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+  <title>Face Recognition</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+    }
+
+    canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+  </style>
+</head>
+<body class="p-2">
+  <div class="container-fluid">
+    <div class="container">
+      <p>
+        Welcome to our Face Recognition system. Teachers, once the model is loaded, you can start uploading photos one by one for recognition.
+      </p>
+    </div>
+    <div class="container">
+      <div class="p-4 text-center mt-4">
+        <label class="form-label alert">Please upload a file to send presentees</label>
+        <input class="form-control mt-3" type="file" id="imageUpload">
+      </div>
+      <div class="row">
+        <img width="500" height="500" src="https://cdn.glitch.global/d7f3268e-3849-4822-a6c9-5843d8e80bca/thumbnails%2Fupload.png?1707064723642" alt="upload" />
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
