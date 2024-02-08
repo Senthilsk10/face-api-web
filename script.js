@@ -30,8 +30,8 @@ async function start() {
     const resizedDetections = faceapi.resizeResults(detections, displaySize)
     const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor))
     const queryParams = getQueryParams(queryString);
-    const key = queryParams['key'];
-    postData(results,key)
+    //const key = queryParams['key'];
+    //postData(results,key)
     results.forEach((result, i) => {
       const box = resizedDetections[i].detection.box
       const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
