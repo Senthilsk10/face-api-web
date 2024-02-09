@@ -30,7 +30,7 @@ async function start() {
     const resizedDetections = faceapi.resizeResults(detections, displaySize)
     const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor))
     const queryParams = getQueryParams(queryString);
-    //const key = queryParams['key'];
+    const key = queryParams['key'];
     //postData(results,key)
     results.forEach((result, i) => {
       const box = resizedDetections[i].detection.box
@@ -41,12 +41,14 @@ async function start() {
 }
 
 function loadLabeledImages() {
-  const labels = ['Black Widow', 'Captain America', 'Captain Marvel', 'Hawkeye', 'Jim Rhodes', 'Thor', 'Tony Stark']
+
+  const labels = ['2238010017','2238010042','2238010058','2238010080']
   return Promise.all(
     labels.map(async label => {
       const descriptions = []
       for (let i = 1; i <= 2; i++) {
-        const img = await faceapi.fetchImage(`https://raw.githubusercontent.com/WebDevSimplified/Face-Recognition-JavaScript/master/labeled_images/${label}/${i}.jpg`)
+        
+        const img = await faceapi.fetchImage(`https://raw.githubusercontent.com/Senthilsk10/face-api-web/main/labeled_images/${label}/${i}.jpeg`)
         const detections = await faceapi.detectSingleFace(img).withFaceLandmarks().withFaceDescriptor()
         descriptions.push(detections.descriptor)
       }
@@ -71,11 +73,6 @@ const getQueryParams = (queryString) => {
   return params;
 };
 
-// Get the query parameters as an object
-//const queryParams = getQueryParams(queryString);
-//const param1Value = queryParams['key'];
-//console.log(param1Value);
-
 
 function postData(data,key) {
   const url = 'my-example.com';
@@ -83,11 +80,11 @@ function postData(data,key) {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      // You may need to include additional headers depending on the API requirements
+      
     },
     body: JSON.stringify(data,key)
   })
-  .then(response => response.json()) // Parse the JSON response
+  .then(response => response.json()) 
   .catch(error => {
     console.error('Error:', error);
   });
