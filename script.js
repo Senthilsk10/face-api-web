@@ -31,7 +31,7 @@ async function start() {
     const results = resizedDetections.map(d => faceMatcher.findBestMatch(d.descriptor))
     const queryParams = getQueryParams(queryString);
     const key = queryParams['key'];
-    //postData(results,key)
+    postData(results,key)
     results.forEach((result, i) => {
       const box = resizedDetections[i].detection.box
       const drawBox = new faceapi.draw.DrawBox(box, { label: result.toString() })
@@ -74,20 +74,24 @@ const getQueryParams = (queryString) => {
 };
 
 
-function postData(data,key) {
-  const url = 'my-example.com';
-  return fetch(url, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      
+function postData(results, key) {
+  const url = 'http://127.0.0.1:8000/staffs/get_result/';
+  const labels = results.map(result => result.label); // Extract labels from results
+  console.log(labels);
+  $.ajax({
+    url: url,
+    type: 'POST',
+    contentType: 'application/json',
+    data: JSON.stringify({ "key": key, "labels": labels }), // Include key and labels in the JSON payload
+    success: function(response) {
+      console.log('Success:', response);
     },
-    body: JSON.stringify(data,key)
-  })
-  .then(response => response.json()) 
-  .catch(error => {
-    console.error('Error:', error);
+    error: function(error) {
+      console.error('Error:', error);
+    }
   });
 }
+
+
 
 
