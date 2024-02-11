@@ -75,7 +75,7 @@ const getQueryParams = (queryString) => {
 
 
 function postData(results, key) {
-  const url = 'http://127.0.0.1:8000/staffs/get_result/';
+  const url = 'https://obscure-space-system-wwxgg9679vwh9qj4-8000.app.github.dev/staffs/get_result/';
   const labels = results.map(result => result.label); // Extract labels from results
   console.log(labels);
   $.ajax({
